@@ -373,25 +373,6 @@ mockServices.forEach((service) => {
 // === Jobs ===
 const jobData: { title: string; companyName: string; jobType: JobType; jobCategory: JobCategory; payType: PayType; payMin: number; payMax: number; location: string; remote: boolean; description: string; requirements: string; benefits: string[]; schedule: string; applicationCount: number; status: 'active' | 'closed' | 'draft'; promoted: boolean; promotionDays?: number }[] = [
   {
-    title: 'VP of Product, Marketplace',
-    companyName: 'OfferUp',
-    jobType: 'full_time',
-    jobCategory: 'tech',
-    payType: 'salary',
-    payMin: 250000,
-    payMax: 350000,
-    location: 'Bellevue, WA',
-    remote: false,
-    description: 'As VP of Marketplace, you will be part of the company\'s executive team and own the nucleus of the entire OfferUp local platform experience. OfferUp Product Management Leaders work with cross-functional teams of engineers, designers, data scientists, and researchers to build products.\n\nYou are a strategic collaborator who serves as a business partner to OfferUp leadership — a smart, data-driven decision-maker who takes professional pride in operational excellence while meeting and exceeding stretch goals.\n\nResponsibilities:\n- Define critical pieces of the Discovery journey for millions of buyers each day, including which items are surfaced from the extensive catalog and how they are presented to the buyer\n- Understand OfferUp\'s strategic and competitive position and deliver products that are recognized best in the industry\n- Be a change agent to maximize efficiency; define and analyze metrics that inform the success of products\n- Adapt and modify product and business requirements based on quantitative and qualitative results\n- Act as a champion for OfferUp\'s mission, vision, and values, and partner across the Company to drive a high-performance work environment',
-    requirements: 'Proven track record of setting a vision and strategy combined with driving solutions and practices that are both innovative and scrappy. 10+ years of Product Management and P&L Management experience building and delivering B2C products within a high-performance tech company serving millions of customers. Excellent written and verbal communication skills. Experience working with both large companies with established best-in-class Product and Engineering practices and operating effectively at an early-stage technology company. Experience with Discovery, Search, and/or Personalization.',
-    benefits: ['Competitive salary + equity package', 'Executive leadership role', 'Health, dental, and vision insurance', 'Unlimited PTO', '401(k) with company match', 'Relocation assistance available'],
-    schedule: 'Full-time. On-site at Bellevue, WA headquarters.',
-    applicationCount: 89,
-    status: 'active',
-    promoted: true,
-    promotionDays: 14,
-  },
-  {
     title: 'Principal Product Manager – Merchant Platforms',
     companyName: 'OfferUp',
     jobType: 'full_time',
