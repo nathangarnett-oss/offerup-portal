@@ -26,13 +26,13 @@ const navItems: NavItem[] = [
   { label: 'Create listings', icon: PlusSquare, href: '/portal/listings/create' },
   { label: 'My listings', icon: List, href: '/portal/listings' },
   { separator: true, label: 'Services' },
-  { label: 'Create service', icon: Wrench, href: '/portal/services/create' },
+  { label: 'Post a service', icon: Wrench, href: '/portal/services/create' },
   { label: 'My services', icon: Wrench, href: '/portal/services' },
   { separator: true, label: 'Jobs' },
   { label: 'Post a job', icon: Briefcase, href: '/portal/jobs/create' },
   { label: 'My jobs', icon: Briefcase, href: '/portal/jobs' },
   { separator: true, label: 'Rentals' },
-  { label: 'List a rental', icon: Building2, href: '/portal/rentals/create' },
+  { label: 'Post a rental', icon: Building2, href: '/portal/rentals/create' },
   { label: 'My rentals', icon: Building2, href: '/portal/rentals' },
   { separator: true, label: 'Advertising' },
   { label: 'Promotions', icon: Megaphone, href: '/portal/ads' },
@@ -49,11 +49,11 @@ function isActive(pathname: string, href: string, label: string): boolean {
   // Exact match for "create" routes to avoid matching the list page
   if (label === 'Create listings') return pathname === '/portal/listings/create';
   if (label === 'My listings') return pathname === '/portal/listings';
-  if (label === 'Create service') return pathname === '/portal/services/create';
+  if (label === 'Post a service') return pathname === '/portal/services/create';
   if (label === 'My services') return pathname === '/portal/services';
   if (label === 'Post a job') return pathname === '/portal/jobs/create';
   if (label === 'My jobs') return pathname === '/portal/jobs' || (pathname.startsWith('/portal/jobs/') && !pathname.includes('/create'));
-  if (label === 'List a rental') return pathname === '/portal/rentals/create';
+  if (label === 'Post a rental') return pathname === '/portal/rentals/create';
   if (label === 'My rentals') return pathname === '/portal/rentals';
   return pathname.startsWith(href);
 }
