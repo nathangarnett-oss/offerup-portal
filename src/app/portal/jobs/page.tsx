@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useMemo } from 'react';
+import Link from 'next/link';
 import { Search, ChevronDown, Plus } from 'lucide-react';
 import { useJobsStore } from '@/store/jobs-store';
 import { JOB_CATEGORIES, JOB_TYPES, PAY_TYPES } from '@/lib/constants';
@@ -121,7 +122,7 @@ export default function JobsPage() {
                     </span>
                   </td>
                   <td className="px-4 py-3">
-                    <span className="font-medium text-gray-800 truncate max-w-[200px] block">{job.title}</span>
+                    <Link href={`/portal/jobs/${job.id}`} className="font-medium text-offerup-green hover:text-offerup-green-dark truncate max-w-[200px] block">{job.title}</Link>
                     <span className="text-xs text-gray-400">{job.companyName}</span>
                   </td>
                   <td className="px-4 py-3">

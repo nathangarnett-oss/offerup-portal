@@ -179,6 +179,9 @@ export interface Job {
   remote: boolean;
   description: string;
   requirements: string;
+  benefits?: string[];
+  schedule?: string;
+  applicationCount?: number;
   status: JobStatus;
   createdAt: string;
   promoted: boolean;

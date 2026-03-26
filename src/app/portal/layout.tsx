@@ -52,7 +52,7 @@ function isActive(pathname: string, href: string, label: string): boolean {
   if (label === 'Create service') return pathname === '/portal/services/create';
   if (label === 'My services') return pathname === '/portal/services';
   if (label === 'Post a job') return pathname === '/portal/jobs/create';
-  if (label === 'My jobs') return pathname === '/portal/jobs';
+  if (label === 'My jobs') return pathname === '/portal/jobs' || (pathname.startsWith('/portal/jobs/') && !pathname.includes('/create'));
   if (label === 'List a rental') return pathname === '/portal/rentals/create';
   if (label === 'My rentals') return pathname === '/portal/rentals';
   return pathname.startsWith(href);
