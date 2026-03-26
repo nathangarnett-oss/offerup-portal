@@ -50,11 +50,11 @@ function isActive(pathname: string, href: string, label: string): boolean {
   if (label === 'Create listings') return pathname === '/portal/listings/create';
   if (label === 'My listings') return pathname === '/portal/listings';
   if (label === 'Post a service') return pathname === '/portal/services/create';
-  if (label === 'My services') return pathname === '/portal/services';
+  if (label === 'My services') return pathname === '/portal/services' || (pathname.startsWith('/portal/services/') && !pathname.includes('/create'));
   if (label === 'Post a job') return pathname === '/portal/jobs/create';
   if (label === 'My jobs') return pathname === '/portal/jobs' || (pathname.startsWith('/portal/jobs/') && !pathname.includes('/create'));
   if (label === 'Post a rental') return pathname === '/portal/rentals/create';
-  if (label === 'My rentals') return pathname === '/portal/rentals';
+  if (label === 'My rentals') return pathname === '/portal/rentals' || (pathname.startsWith('/portal/rentals/') && !pathname.includes('/create'));
   return pathname.startsWith(href);
 }
 

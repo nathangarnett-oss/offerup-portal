@@ -1,7 +1,8 @@
 'use client';
 
 import { useState, useMemo } from 'react';
-import { Search, ChevronDown, ImageIcon, Plus } from 'lucide-react';
+import Link from 'next/link';
+import { Search, ChevronDown, ImageIcon, Plus, BarChart3 } from 'lucide-react';
 import { useRentalsStore } from '@/store/rentals-store';
 import { PROPERTY_TYPES } from '@/lib/constants';
 import { formatCurrency, formatDate, cn } from '@/lib/utils';
@@ -120,7 +121,7 @@ export default function RentalsPage() {
                         <ImageIcon size={16} />
                       </div>
                       <div>
-                        <span className="font-medium text-gray-800 truncate max-w-[180px] block">{rental.title}</span>
+                        <Link href={`/portal/rentals/${rental.id}`} className="font-medium text-offerup-green hover:text-offerup-green-dark truncate max-w-[180px] block">{rental.title}</Link>
                         <span className="text-xs text-gray-400">{rental.location}</span>
                       </div>
                     </div>
@@ -132,11 +133,20 @@ export default function RentalsPage() {
                   <td className="px-4 py-3 text-gray-500">{rental.bedrooms} bd / {rental.bathrooms} ba</td>
                   <td className="px-4 py-3 text-gray-500">{formatDate(rental.availableDate)}</td>
                   <td className="px-4 py-3">
-                    {rental.promoted ? (
-                      <button onClick={() => togglePromotion(rental.id)} className="text-xs font-medium text-offerup-green hover:text-offerup-green-dark transition-colors">Remove promotion</button>
-                    ) : (
-                      <button onClick={() => togglePromotion(rental.id)} className="rounded-md border border-offerup-green px-3 py-1 text-xs font-medium text-offerup-green hover:bg-offerup-green-light transition-colors">Promote</button>
-                    )}
+                    <div className="flex items-center gap-2">
+                      <Link
+                        href={`/portal/rentals/${rental.id}/performance`}
+                        className="rounded-lg p-1.5 text-gray-500 transition-colors hover:bg-gray-100 hover:text-gray-700"
+                        title="View performance"
+                      >
+                        <BarChart3 size={16} />
+                      </Link>
+                      {rental.promoted ? (
+                        <button onClick={() => togglePromotion(rental.id)} className="text-xs font-medium text-offerup-green hover:text-offerup-green-dark transition-colors">Remove promotion</button>
+                      ) : (
+                        <button onClick={() => togglePromotion(rental.id)} className="rounded-md border border-offerup-green px-3 py-1 text-xs font-medium text-offerup-green hover:bg-offerup-green-light transition-colors">Promote</button>
+                      )}
+                    </div>
                   </td>
                 </tr>
               );

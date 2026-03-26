@@ -1,4 +1,4 @@
-import { User, Subscription, Listing, Campaign, DailyMetric, CampaignAnalytics, AdCreative, BillingRecord, PaymentMethod, ListingCategory, Service, ServiceCategory, ServicePricingModel, ExperienceLevel, Job, JobType, JobCategory, PayType, JobDailyMetric, JobAnalytics, Rental, PropertyType, PetPolicy, LeaseTerm } from './types';
+import { User, Subscription, Listing, Campaign, DailyMetric, CampaignAnalytics, AdCreative, BillingRecord, PaymentMethod, ListingCategory, Service, ServiceCategory, ServicePricingModel, ExperienceLevel, Job, JobType, JobCategory, PayType, JobDailyMetric, JobAnalytics, ServiceDailyMetric, ServiceAnalytics, Rental, RentalDailyMetric, RentalAnalytics, PropertyType, PetPolicy, LeaseTerm } from './types';
 
 // === User ===
 export const mockUser: User = {
@@ -259,15 +259,47 @@ export function getAvgCTR(): number {
 }
 
 // === Services ===
-const serviceData: { title: string; description: string; serviceCategory: ServiceCategory; pricingModel: ServicePricingModel; price: number; serviceArea: string[]; availability: string; experienceLevel: ExperienceLevel; status: 'active' | 'paused' | 'draft'; promoted: boolean; promotionDays?: number }[] = [
-  { title: 'Deep House Cleaning', description: 'Professional deep cleaning for homes and apartments. We bring all supplies and equipment.', serviceCategory: 'cleaning', pricingModel: 'flat', price: 150, serviceArea: ['Seattle, WA', 'Portland, OR'], availability: 'Mon-Sat 8am-6pm', experienceLevel: 'expert', status: 'active', promoted: true, promotionDays: 3 },
-  { title: 'Licensed Plumber - Emergency & Repairs', description: 'Licensed and insured plumber. Same-day emergency service available. All residential plumbing.', serviceCategory: 'plumbing', pricingModel: 'hourly', price: 85, serviceArea: ['Seattle, WA'], availability: '24/7 Emergency Available', experienceLevel: 'expert', status: 'active', promoted: true, promotionDays: 5 },
-  { title: 'Math Tutoring K-12', description: 'Experienced math tutor for all grade levels. SAT/ACT prep available. In-person or virtual sessions.', serviceCategory: 'tutoring', pricingModel: 'hourly', price: 45, serviceArea: ['Seattle, WA', 'Portland, OR', 'San Francisco, CA'], availability: 'Mon-Fri 3pm-8pm, Weekends 10am-4pm', experienceLevel: 'intermediate', status: 'active', promoted: false },
-  { title: 'Dog Walking & Pet Sitting', description: 'Reliable pet care for your furry friends. Daily walks, overnight stays, and drop-in visits.', serviceCategory: 'pet_care', pricingModel: 'starting_at', price: 20, serviceArea: ['Seattle, WA'], availability: 'Daily 7am-9pm', experienceLevel: 'intermediate', status: 'active', promoted: false },
-  { title: 'Lawn Care & Landscaping', description: 'Complete lawn maintenance, garden design, and seasonal cleanup. Free estimates for new customers.', serviceCategory: 'landscaping', pricingModel: 'free_estimate', price: 0, serviceArea: ['Seattle, WA', 'Portland, OR'], availability: 'Mon-Sat 7am-5pm', experienceLevel: 'expert', status: 'active', promoted: false },
-  { title: 'Local Moving Help', description: 'Two experienced movers with a truck. Apartments, homes, and offices. Loading/unloading available.', serviceCategory: 'moving', pricingModel: 'hourly', price: 120, serviceArea: ['Seattle, WA', 'Portland, OR'], availability: 'Wed-Sun 8am-6pm', experienceLevel: 'intermediate', status: 'active', promoted: false },
-  { title: 'Handyman - Odd Jobs & Repairs', description: 'No job too small. Furniture assembly, drywall repair, painting, shelving, and general fixes.', serviceCategory: 'handyman', pricingModel: 'starting_at', price: 50, serviceArea: ['Seattle, WA'], availability: 'Mon-Fri 9am-5pm', experienceLevel: 'beginner', status: 'paused', promoted: false },
-  { title: 'Auto Detailing - Mobile Service', description: 'We come to you! Full interior/exterior detail. Ceramic coating and paint correction available.', serviceCategory: 'auto_repair', pricingModel: 'starting_at', price: 99, serviceArea: ['Seattle, WA', 'Portland, OR', 'San Francisco, CA'], availability: 'Tue-Sun 8am-6pm', experienceLevel: 'expert', status: 'active', promoted: false },
+const serviceData: { title: string; description: string; serviceCategory: ServiceCategory; pricingModel: ServicePricingModel; price: number; serviceArea: string[]; availability: string; experienceLevel: ExperienceLevel; status: 'active' | 'paused' | 'draft'; promoted: boolean; promotionDays?: number; inquiryCount: number }[] = [
+  {
+    title: 'Deep House Cleaning',
+    description: 'Professional deep cleaning for homes and apartments. We bring all supplies and equipment — eco-friendly products available on request.\n\nWhat\'s included:\n- Kitchen deep clean (appliances, cabinets, countertops)\n- Bathroom sanitization and scrub\n- All floors vacuumed and mopped\n- Dusting all surfaces, baseboards, and ceiling fans\n- Window sill and interior glass cleaning\n- Trash removal and fresh linen setup\n\nWe serve single-family homes, apartments, and condos up to 3,000 sqft. Larger properties quoted separately.',
+    serviceCategory: 'cleaning', pricingModel: 'flat', price: 150, serviceArea: ['Seattle, WA', 'Portland, OR'], availability: 'Mon-Sat 8am-6pm', experienceLevel: 'expert', status: 'active', promoted: true, promotionDays: 3, inquiryCount: 47,
+  },
+  {
+    title: 'Licensed Plumber - Emergency & Repairs',
+    description: 'Licensed and insured plumber with 15+ years of experience. Same-day emergency service available for urgent issues.\n\nServices we offer:\n- Leak detection and repair\n- Drain cleaning and unclogging\n- Water heater installation and repair\n- Faucet, toilet, and fixture replacement\n- Pipe repair and repiping\n- Garbage disposal installation\n- Sump pump service\n\nAll work is guaranteed. We provide free estimates for non-emergency jobs and transparent pricing before any work begins.',
+    serviceCategory: 'plumbing', pricingModel: 'hourly', price: 85, serviceArea: ['Seattle, WA'], availability: '24/7 Emergency Available', experienceLevel: 'expert', status: 'active', promoted: true, promotionDays: 5, inquiryCount: 32,
+  },
+  {
+    title: 'Math Tutoring K-12',
+    description: 'Experienced math tutor helping students build confidence and improve grades. I specialize in making math click for students who feel stuck.\n\nSubjects covered:\n- Elementary math fundamentals\n- Pre-Algebra and Algebra I/II\n- Geometry and Trigonometry\n- Pre-Calculus and AP Calculus\n- SAT/ACT math prep\n- Common Core aligned curriculum\n\nSessions are 60 minutes and can be in-person or virtual (Zoom). I bring worksheets and practice materials. Progress reports provided monthly to parents.',
+    serviceCategory: 'tutoring', pricingModel: 'hourly', price: 45, serviceArea: ['Seattle, WA', 'Portland, OR', 'San Francisco, CA'], availability: 'Mon-Fri 3pm-8pm, Weekends 10am-4pm', experienceLevel: 'intermediate', status: 'active', promoted: false, inquiryCount: 19,
+  },
+  {
+    title: 'Dog Walking & Pet Sitting',
+    description: 'Reliable, loving care for your furry family members! Whether you need daily walks or overnight pet sitting, I treat every pet like my own.\n\nServices offered:\n- 30-minute or 60-minute dog walks\n- Drop-in visits (feeding, medication, playtime)\n- Overnight pet sitting in your home\n- Puppy visits (extra energy burn!)\n- Cat care and small animal care\n\nAll walks include a GPS-tracked route and photo updates. First walk is 50% off so your pet can get comfortable with me! Fully insured through PetSitter.com.',
+    serviceCategory: 'pet_care', pricingModel: 'starting_at', price: 20, serviceArea: ['Seattle, WA'], availability: 'Daily 7am-9pm', experienceLevel: 'intermediate', status: 'active', promoted: false, inquiryCount: 28,
+  },
+  {
+    title: 'Lawn Care & Landscaping',
+    description: 'Complete lawn maintenance and landscaping services to keep your outdoor space looking its best all year round.\n\nServices include:\n- Weekly/bi-weekly lawn mowing and edging\n- Garden bed design and planting\n- Hedge and shrub trimming\n- Seasonal cleanup (spring and fall)\n- Mulching and soil amendment\n- Irrigation system maintenance\n- Pressure washing (driveways, patios)\n\nFree estimates for all new customers. We serve residential and small commercial properties. Licensed and insured with 10+ years of experience.',
+    serviceCategory: 'landscaping', pricingModel: 'free_estimate', price: 0, serviceArea: ['Seattle, WA', 'Portland, OR'], availability: 'Mon-Sat 7am-5pm', experienceLevel: 'expert', status: 'active', promoted: false, inquiryCount: 15,
+  },
+  {
+    title: 'Local Moving Help',
+    description: 'Two experienced movers with a 16-foot box truck ready to help with your next move. We handle apartments, houses, and offices in the greater Seattle/Portland metro area.\n\nWhat we provide:\n- Professional loading and unloading\n- Furniture disassembly and reassembly\n- Blanket wrapping for fragile items\n- Dolly and hand truck equipment\n- Clean, smoke-free truck\n\nMinimum 2-hour booking. We can also help with single-item moves (couches, appliances, etc). No hidden fees — the rate you see is the rate you pay.',
+    serviceCategory: 'moving', pricingModel: 'hourly', price: 120, serviceArea: ['Seattle, WA', 'Portland, OR'], availability: 'Wed-Sun 8am-6pm', experienceLevel: 'intermediate', status: 'active', promoted: false, inquiryCount: 22,
+  },
+  {
+    title: 'Handyman - Odd Jobs & Repairs',
+    description: 'No job too small! I handle a wide range of home repairs and odd jobs so you don\'t have to.\n\nCommon jobs I do:\n- Furniture assembly (IKEA, Wayfair, etc.)\n- Drywall patching and repair\n- Interior painting and touch-ups\n- Shelf and TV mounting\n- Door and lock installation\n- Minor plumbing (faucets, toilets)\n- General fixes and maintenance\n\nHourly rate with a 1-hour minimum. I bring my own tools. Happy to provide references from repeat customers.',
+    serviceCategory: 'handyman', pricingModel: 'starting_at', price: 50, serviceArea: ['Seattle, WA'], availability: 'Mon-Fri 9am-5pm', experienceLevel: 'beginner', status: 'paused', promoted: false, inquiryCount: 8,
+  },
+  {
+    title: 'Auto Detailing - Mobile Service',
+    description: 'We come to your home or office! Premium mobile auto detailing that makes your car look showroom-new.\n\nPackages available:\n- Express Wash & Vacuum ($99)\n- Full Interior + Exterior Detail ($199)\n- Premium Detail with Clay Bar & Polish ($299)\n- Ceramic Coating Application ($499+)\n- Paint Correction (quote based on condition)\n\nWe use professional-grade products and equipment. Each detail includes a multi-point inspection and before/after photos. Satisfaction guaranteed or we\'ll redo it free.',
+    serviceCategory: 'auto_repair', pricingModel: 'starting_at', price: 99, serviceArea: ['Seattle, WA', 'Portland, OR', 'San Francisco, CA'], availability: 'Tue-Sun 8am-6pm', experienceLevel: 'expert', status: 'active', promoted: false, inquiryCount: 36,
+  },
 ];
 
 export const mockServices: Service[] = serviceData.map((item, i) => ({
@@ -287,7 +319,56 @@ export const mockServices: Service[] = serviceData.map((item, i) => ({
   promoted: item.promoted,
   promotionDate: item.promoted ? '2026-03-15T00:00:00Z' : undefined,
   promotionDays: item.promotionDays,
+  inquiryCount: item.inquiryCount,
 }));
+
+// === Service Analytics ===
+function generateServiceDailyMetrics(days: number, baseViews: number, promoted: boolean): ServiceDailyMetric[] {
+  const metrics: ServiceDailyMetric[] = [];
+  const startDate = new Date('2026-02-24');
+  const promotionMultiplier = promoted ? 1.6 : 1;
+
+  for (let i = 0; i < days; i++) {
+    const date = new Date(startDate);
+    date.setDate(date.getDate() + i);
+    const dayOfWeek = date.getDay();
+    const weekendMultiplier = (dayOfWeek === 0 || dayOfWeek === 6) ? 1.3 : 1;
+    const trendMultiplier = 1 + (i / days) * 0.15;
+    const noise = 0.75 + (((i * 7 + 13) % 20) / 20) * 0.5;
+
+    const views = Math.round(baseViews * weekendMultiplier * trendMultiplier * noise * promotionMultiplier);
+    const clickRate = 0.12 + (((i * 3 + 7) % 15) / 15) * 0.12;
+    const clicks = Math.round(views * clickRate);
+    const inquiryRate = 0.04 + (((i * 11 + 3) % 10) / 10) * 0.06;
+    const inquiries = Math.round(clicks * inquiryRate);
+
+    metrics.push({ date: date.toISOString().split('T')[0], views, clicks, inquiries });
+  }
+  return metrics;
+}
+
+export const mockServiceAnalytics: Record<string, ServiceAnalytics> = {};
+mockServices.forEach((service) => {
+  const days = 30;
+  const baseViews = service.status === 'paused' ? 40 : service.pricingModel === 'free_estimate' ? 100 : 150;
+  const dailyMetrics = generateServiceDailyMetrics(days, baseViews, service.promoted);
+
+  const totalViews = dailyMetrics.reduce((sum, d) => sum + d.views, 0);
+  const totalClicks = dailyMetrics.reduce((sum, d) => sum + d.clicks, 0);
+  const totalInquiries = dailyMetrics.reduce((sum, d) => sum + d.inquiries, 0);
+
+  mockServiceAnalytics[service.id] = {
+    serviceId: service.id,
+    summary: {
+      totalViews,
+      totalClicks,
+      totalInquiries,
+      ctr: totalViews > 0 ? Math.round((totalClicks / totalViews) * 10000) / 100 : 0,
+      conversionRate: totalClicks > 0 ? Math.round((totalInquiries / totalClicks) * 10000) / 100 : 0,
+    },
+    dailyMetrics,
+  };
+});
 
 // === Jobs ===
 const jobData: { title: string; companyName: string; jobType: JobType; jobCategory: JobCategory; payType: PayType; payMin: number; payMax: number; location: string; remote: boolean; description: string; requirements: string; benefits: string[]; schedule: string; applicationCount: number; status: 'active' | 'closed' | 'draft'; promoted: boolean; promotionDays?: number }[] = [
@@ -501,15 +582,47 @@ mockJobs.forEach((job) => {
 });
 
 // === Rentals ===
-const rentalData: { title: string; description: string; propertyType: PropertyType; rent: number; bedrooms: number; bathrooms: number; sqft: number; petPolicy: PetPolicy; availableDate: string; leaseTerm: LeaseTerm; amenities: string[]; location: string; status: 'active' | 'rented' | 'draft'; promoted: boolean; promotionDays?: number }[] = [
-  { title: 'Spacious 2BR Capitol Hill Apt', description: 'Bright, updated 2-bedroom apartment in the heart of Capitol Hill. Walking distance to shops and restaurants.', propertyType: 'apartment', rent: 2200, bedrooms: 2, bathrooms: 1, sqft: 950, petPolicy: 'allowed', availableDate: '2026-04-01', leaseTerm: '1_year', amenities: ['In-Unit Laundry', 'Dishwasher', 'AC', 'Balcony'], location: 'Seattle, WA', status: 'active', promoted: true, promotionDays: 7 },
-  { title: 'Cozy Studio Downtown', description: 'Modern studio with floor-to-ceiling windows, city views, and building amenities.', propertyType: 'studio', rent: 1450, bedrooms: 0, bathrooms: 1, sqft: 480, petPolicy: 'not_allowed', availableDate: '2026-04-15', leaseTerm: '1_year', amenities: ['Gym', 'Parking', 'AC', 'Storage'], location: 'Seattle, WA', status: 'active', promoted: true, promotionDays: 5 },
-  { title: '3BR House with Yard - Ballard', description: 'Charming 3-bedroom house with fenced yard and detached garage. Quiet residential neighborhood.', propertyType: 'house', rent: 3200, bedrooms: 3, bathrooms: 2, sqft: 1600, petPolicy: 'allowed', availableDate: '2026-05-01', leaseTerm: '1_year', amenities: ['Parking', 'In-Unit Laundry', 'Dishwasher', 'Storage'], location: 'Seattle, WA', status: 'active', promoted: false },
-  { title: 'Modern 1BR Condo - Pearl District', description: 'Sleek one-bedroom condo with stainless steel appliances and in-unit washer/dryer.', propertyType: 'condo', rent: 1800, bedrooms: 1, bathrooms: 1, sqft: 720, petPolicy: 'case_by_case', availableDate: '2026-04-01', leaseTerm: '1_year', amenities: ['In-Unit Laundry', 'Dishwasher', 'AC', 'Gym', 'Pool'], location: 'Portland, OR', status: 'active', promoted: false },
-  { title: 'Furnished Room in Shared House', description: 'Private furnished room in a friendly shared house. Shared kitchen, living room, and bathroom.', propertyType: 'room', rent: 750, bedrooms: 1, bathrooms: 1, sqft: 200, petPolicy: 'not_allowed', availableDate: '2026-03-25', leaseTerm: 'month_to_month', amenities: ['Shared Laundry', 'Parking'], location: 'Portland, OR', status: 'active', promoted: false },
-  { title: '2BR Townhouse - Inner Sunset', description: 'Two-story townhouse with private patio. Close to Golden Gate Park and N-Judah line.', propertyType: 'townhouse', rent: 3500, bedrooms: 2, bathrooms: 1.5, sqft: 1100, petPolicy: 'allowed', availableDate: '2026-05-15', leaseTerm: '1_year', amenities: ['Parking', 'In-Unit Laundry', 'Dishwasher', 'Balcony', 'Storage'], location: 'San Francisco, CA', status: 'active', promoted: false },
-  { title: 'Budget 1BR Near University', description: 'Affordable one-bedroom near campus. Great for students or young professionals.', propertyType: 'apartment', rent: 1100, bedrooms: 1, bathrooms: 1, sqft: 550, petPolicy: 'not_allowed', availableDate: '2026-06-01', leaseTerm: '6_months', amenities: ['Shared Laundry', 'AC'], location: 'Portland, OR', status: 'draft', promoted: false },
-  { title: 'Luxury 2BR Waterfront Condo', description: 'Premium waterfront living with panoramic lake views. Concierge service and rooftop deck.', propertyType: 'condo', rent: 4200, bedrooms: 2, bathrooms: 2, sqft: 1300, petPolicy: 'case_by_case', availableDate: '2026-04-01', leaseTerm: '1_year', amenities: ['Parking', 'In-Unit Laundry', 'Dishwasher', 'AC', 'Gym', 'Pool', 'Balcony', 'EV Charging'], location: 'Seattle, WA', status: 'rented', promoted: false },
+const rentalData: { title: string; description: string; propertyType: PropertyType; rent: number; bedrooms: number; bathrooms: number; sqft: number; petPolicy: PetPolicy; availableDate: string; leaseTerm: LeaseTerm; amenities: string[]; location: string; status: 'active' | 'rented' | 'draft'; promoted: boolean; promotionDays?: number; inquiryCount: number }[] = [
+  {
+    title: 'Spacious 2BR Capitol Hill Apt',
+    description: 'Bright, recently updated 2-bedroom apartment in the heart of Capitol Hill. Walking distance to Broadway shops, restaurants, and nightlife.\n\nUnit features:\n- Hardwood floors throughout\n- Updated kitchen with stainless steel appliances\n- Large living room with south-facing windows\n- In-unit washer/dryer\n- Private balcony with city views\n- Central AC and heating\n- One reserved parking spot included\n\nBuilding amenities include a rooftop deck, package lockers, and bike storage. Water/sewer/garbage included in rent. Cat-friendly (dogs case by case with deposit).',
+    propertyType: 'apartment', rent: 2200, bedrooms: 2, bathrooms: 1, sqft: 950, petPolicy: 'allowed', availableDate: '2026-04-01', leaseTerm: '1_year', amenities: ['In-Unit Laundry', 'Dishwasher', 'AC', 'Balcony'], location: 'Seattle, WA', status: 'active', promoted: true, promotionDays: 7, inquiryCount: 34,
+  },
+  {
+    title: 'Cozy Studio Downtown',
+    description: 'Modern studio in a luxury high-rise in the heart of downtown Seattle. Floor-to-ceiling windows with stunning Puget Sound and Olympic Mountain views.\n\nUnit features:\n- Open floor plan with built-in murphy bed\n- Quartz countertops and modern cabinetry\n- Full-size appliances including dishwasher\n- Walk-in closet\n- Central AC\n\nBuilding amenities: 24-hour concierge, fitness center, rooftop terrace, resident lounge, EV charging stations, and underground parking ($150/mo extra). Steps from Pike Place Market and the waterfront.',
+    propertyType: 'studio', rent: 1450, bedrooms: 0, bathrooms: 1, sqft: 480, petPolicy: 'not_allowed', availableDate: '2026-04-15', leaseTerm: '1_year', amenities: ['Gym', 'Parking', 'AC', 'Storage'], location: 'Seattle, WA', status: 'active', promoted: true, promotionDays: 5, inquiryCount: 21,
+  },
+  {
+    title: '3BR House with Yard - Ballard',
+    description: 'Charming 3-bedroom craftsman house with a large, fenced backyard and detached 2-car garage. Quiet, tree-lined residential street in the heart of Ballard.\n\nHome features:\n- Refinished hardwood floors\n- Updated kitchen with gas range and granite countertops\n- Spacious living room with original fireplace\n- Full basement with additional storage\n- Large fenced backyard — great for pets and entertaining\n- Detached 2-car garage with opener\n\nWalking distance to Ballard Farmers Market, breweries, and shopping on Market Street. Excellent public transit access. Tenant responsible for utilities and yard maintenance.',
+    propertyType: 'house', rent: 3200, bedrooms: 3, bathrooms: 2, sqft: 1600, petPolicy: 'allowed', availableDate: '2026-05-01', leaseTerm: '1_year', amenities: ['Parking', 'In-Unit Laundry', 'Dishwasher', 'Storage'], location: 'Seattle, WA', status: 'active', promoted: false, inquiryCount: 18,
+  },
+  {
+    title: 'Modern 1BR Condo - Pearl District',
+    description: 'Sleek one-bedroom condo in Portland\'s premier Pearl District. Walk to restaurants, galleries, Powell\'s Books, and the Streetcar.\n\nUnit features:\n- Open-concept living/dining with floor-to-ceiling windows\n- Modern kitchen with stainless steel appliances and in-unit washer/dryer\n- Bedroom with large closet\n- Central AC and heating\n- One parking space in secure garage\n\nBuilding amenities: fitness center, rooftop pool, resident lounge, and secure package room. Water/sewer/garbage included. Pet-friendly on case-by-case basis with deposit.',
+    propertyType: 'condo', rent: 1800, bedrooms: 1, bathrooms: 1, sqft: 720, petPolicy: 'case_by_case', availableDate: '2026-04-01', leaseTerm: '1_year', amenities: ['In-Unit Laundry', 'Dishwasher', 'AC', 'Gym', 'Pool'], location: 'Portland, OR', status: 'active', promoted: false, inquiryCount: 15,
+  },
+  {
+    title: 'Furnished Room in Shared House',
+    description: 'Private furnished room in a friendly shared house near Alberta Arts District. Great for someone new to Portland or looking for an affordable, community-oriented living situation.\n\nRoom includes:\n- Full-size bed, desk, and dresser\n- Closet with organizer\n- Locking door for privacy\n\nShared spaces:\n- Full kitchen (well-stocked with cookware)\n- Living room with TV and couch\n- Bathroom (shared with one other housemate)\n- Backyard with garden\n- Shared laundry in basement\n\nUtilities included in rent (water, electric, gas, Wi-Fi). Currently 3 housemates, all professionals ages 25-35. No smoking, no pets.',
+    propertyType: 'room', rent: 750, bedrooms: 1, bathrooms: 1, sqft: 200, petPolicy: 'not_allowed', availableDate: '2026-03-25', leaseTerm: 'month_to_month', amenities: ['Shared Laundry', 'Parking'], location: 'Portland, OR', status: 'active', promoted: false, inquiryCount: 9,
+  },
+  {
+    title: '2BR Townhouse - Inner Sunset',
+    description: 'Two-story townhouse with a private patio in San Francisco\'s charming Inner Sunset neighborhood. Close to Golden Gate Park, UCSF, and the N-Judah Muni line.\n\nUnit features:\n- Open-concept main level with kitchen, dining, and living room\n- Two bedrooms upstairs with ample closet space\n- Half bath on main level, full bath upstairs\n- In-unit washer/dryer\n- Private rear patio\n- 1-car garage with additional storage\n\nNewly painted with new carpet upstairs. Hardwood on the main level. Close to Irving Street shops and restaurants. Tenant pays electric and gas; water included.',
+    propertyType: 'townhouse', rent: 3500, bedrooms: 2, bathrooms: 1.5, sqft: 1100, petPolicy: 'allowed', availableDate: '2026-05-15', leaseTerm: '1_year', amenities: ['Parking', 'In-Unit Laundry', 'Dishwasher', 'Balcony', 'Storage'], location: 'San Francisco, CA', status: 'active', promoted: false, inquiryCount: 12,
+  },
+  {
+    title: 'Budget 1BR Near University',
+    description: 'Affordable one-bedroom apartment near Portland State University campus. Ideal for students or young professionals on a budget.\n\nUnit features:\n- Separate bedroom and living area\n- Galley kitchen with range and refrigerator\n- Full bathroom with tub/shower combo\n- AC window unit\n- Shared coin-op laundry in building\n\nClose to campus, MAX light rail, and downtown Portland. Rent includes water and garbage. Electric paid by tenant. No pets, no smoking.',
+    propertyType: 'apartment', rent: 1100, bedrooms: 1, bathrooms: 1, sqft: 550, petPolicy: 'not_allowed', availableDate: '2026-06-01', leaseTerm: '6_months', amenities: ['Shared Laundry', 'AC'], location: 'Portland, OR', status: 'draft', promoted: false, inquiryCount: 0,
+  },
+  {
+    title: 'Luxury 2BR Waterfront Condo',
+    description: 'Premium waterfront living with panoramic Lake Union views. This luxury condo offers concierge service, a rooftop deck, and top-of-the-line finishes throughout.\n\nUnit features:\n- 180-degree lake and skyline views\n- Chef\'s kitchen with Sub-Zero fridge and Wolf range\n- Primary suite with walk-in closet and spa-like bath\n- Second bedroom with en-suite bath\n- In-unit laundry (full-size)\n- Floor-to-ceiling windows throughout\n- Two parking spaces in secured garage\n- Private storage unit\n\nBuilding amenities: 24-hour concierge, fitness center, lap pool, hot tub, rooftop entertaining deck, EV charging. Walking distance to South Lake Union tech campus.',
+    propertyType: 'condo', rent: 4200, bedrooms: 2, bathrooms: 2, sqft: 1300, petPolicy: 'case_by_case', availableDate: '2026-04-01', leaseTerm: '1_year', amenities: ['Parking', 'In-Unit Laundry', 'Dishwasher', 'AC', 'Gym', 'Pool', 'Balcony', 'EV Charging'], location: 'Seattle, WA', status: 'rented', promoted: false, inquiryCount: 52,
+  },
 ];
 
 export const mockRentals: Rental[] = rentalData.map((item, i) => ({
@@ -520,3 +633,51 @@ export const mockRentals: Rental[] = rentalData.map((item, i) => ({
   createdAt: `2026-0${Math.min(3, Math.floor(i / 3) + 1)}-${String((i * 3 % 28) + 1).padStart(2, '0')}T00:00:00Z`,
   promotionDate: item.promoted ? '2026-03-15T00:00:00Z' : undefined,
 }));
+
+// === Rental Analytics ===
+function generateRentalDailyMetrics(days: number, baseViews: number, promoted: boolean): RentalDailyMetric[] {
+  const metrics: RentalDailyMetric[] = [];
+  const startDate = new Date('2026-02-24');
+  const promotionMultiplier = promoted ? 2.0 : 1;
+
+  for (let i = 0; i < days; i++) {
+    const date = new Date(startDate);
+    date.setDate(date.getDate() + i);
+    const dayOfWeek = date.getDay();
+    const weekendMultiplier = (dayOfWeek === 0 || dayOfWeek === 6) ? 1.4 : 1;
+    const trendMultiplier = 1 + (i / days) * 0.2;
+    const noise = 0.75 + (((i * 7 + 13) % 20) / 20) * 0.5;
+
+    const views = Math.round(baseViews * weekendMultiplier * trendMultiplier * noise * promotionMultiplier);
+    const clickRate = 0.10 + (((i * 3 + 7) % 15) / 15) * 0.10;
+    const clicks = Math.round(views * clickRate);
+    const inquiryRate = 0.05 + (((i * 11 + 3) % 10) / 10) * 0.07;
+    const inquiries = Math.round(clicks * inquiryRate);
+
+    metrics.push({ date: date.toISOString().split('T')[0], views, clicks, inquiries });
+  }
+  return metrics;
+}
+
+export const mockRentalAnalytics: Record<string, RentalAnalytics> = {};
+mockRentals.forEach((rental) => {
+  const days = 30;
+  const baseViews = rental.status === 'rented' ? 60 : rental.rent > 3000 ? 250 : 180;
+  const dailyMetrics = generateRentalDailyMetrics(days, baseViews, rental.promoted);
+
+  const totalViews = dailyMetrics.reduce((sum, d) => sum + d.views, 0);
+  const totalClicks = dailyMetrics.reduce((sum, d) => sum + d.clicks, 0);
+  const totalInquiries = dailyMetrics.reduce((sum, d) => sum + d.inquiries, 0);
+
+  mockRentalAnalytics[rental.id] = {
+    rentalId: rental.id,
+    summary: {
+      totalViews,
+      totalClicks,
+      totalInquiries,
+      ctr: totalViews > 0 ? Math.round((totalClicks / totalViews) * 10000) / 100 : 0,
+      conversionRate: totalClicks > 0 ? Math.round((totalInquiries / totalClicks) * 10000) / 100 : 0,
+    },
+    dailyMetrics,
+  };
+});

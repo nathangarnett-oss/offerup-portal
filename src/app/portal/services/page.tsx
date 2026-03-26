@@ -1,7 +1,8 @@
 'use client';
 
 import { useState, useMemo } from 'react';
-import { Search, ChevronDown, ImageIcon, Plus } from 'lucide-react';
+import Link from 'next/link';
+import { Search, ChevronDown, ImageIcon, Plus, BarChart3 } from 'lucide-react';
 import { useServicesStore } from '@/store/services-store';
 import { SERVICE_CATEGORIES, SERVICE_PRICING_MODELS } from '@/lib/constants';
 import { formatCurrency, formatDate, cn } from '@/lib/utils';
@@ -146,18 +147,27 @@ export default function ServicesPage() {
                       <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded bg-gray-100 text-gray-400">
                         <ImageIcon size={16} />
                       </div>
-                      <span className="font-medium text-gray-800 truncate max-w-[200px]">{service.title}</span>
+                      <Link href={`/portal/services/${service.id}`} className="font-medium text-offerup-green hover:text-offerup-green-dark truncate max-w-[200px]">{service.title}</Link>
                     </div>
                   </td>
                   <td className="px-4 py-3 text-gray-500">{catLabel}</td>
                   <td className="px-4 py-3 font-medium text-gray-800">{formatPricing(service.pricingModel, service.price)}</td>
                   <td className="px-4 py-3 text-gray-500 truncate max-w-[150px]">{service.serviceArea[0]}</td>
                   <td className="px-4 py-3">
-                    {service.promoted ? (
-                      <button onClick={() => togglePromotion(service.id)} className="text-xs font-medium text-offerup-green hover:text-offerup-green-dark transition-colors">Remove promotion</button>
-                    ) : (
-                      <button onClick={() => togglePromotion(service.id)} className="rounded-md border border-offerup-green px-3 py-1 text-xs font-medium text-offerup-green hover:bg-offerup-green-light transition-colors">Promote</button>
-                    )}
+                    <div className="flex items-center gap-2">
+                      <Link
+                        href={`/portal/services/${service.id}/performance`}
+                        className="rounded-lg p-1.5 text-gray-500 transition-colors hover:bg-gray-100 hover:text-gray-700"
+                        title="View performance"
+                      >
+                        <BarChart3 size={16} />
+                      </Link>
+                      {service.promoted ? (
+                        <button onClick={() => togglePromotion(service.id)} className="text-xs font-medium text-offerup-green hover:text-offerup-green-dark transition-colors">Remove promotion</button>
+                      ) : (
+                        <button onClick={() => togglePromotion(service.id)} className="rounded-md border border-offerup-green px-3 py-1 text-xs font-medium text-offerup-green hover:bg-offerup-green-light transition-colors">Promote</button>
+                      )}
+                    </div>
                   </td>
                 </tr>
               );

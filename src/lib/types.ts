@@ -157,6 +157,7 @@ export interface Service {
   promoted: boolean;
   promotionDate?: string;
   promotionDays?: number;
+  inquiryCount?: number;
 }
 
 // === Jobs ===
@@ -209,6 +210,46 @@ export interface JobAnalytics {
   dailyMetrics: JobDailyMetric[];
 }
 
+// === Service Analytics ===
+export interface ServiceDailyMetric {
+  date: string;
+  views: number;
+  clicks: number;
+  inquiries: number;
+}
+
+export interface ServiceAnalytics {
+  serviceId: string;
+  summary: {
+    totalViews: number;
+    totalClicks: number;
+    totalInquiries: number;
+    ctr: number;
+    conversionRate: number;
+  };
+  dailyMetrics: ServiceDailyMetric[];
+}
+
+// === Rental Analytics ===
+export interface RentalDailyMetric {
+  date: string;
+  views: number;
+  clicks: number;
+  inquiries: number;
+}
+
+export interface RentalAnalytics {
+  rentalId: string;
+  summary: {
+    totalViews: number;
+    totalClicks: number;
+    totalInquiries: number;
+    ctr: number;
+    conversionRate: number;
+  };
+  dailyMetrics: RentalDailyMetric[];
+}
+
 // === Rentals ===
 export type PropertyType = 'apartment' | 'house' | 'condo' | 'townhouse' | 'room' | 'studio';
 export type PetPolicy = 'allowed' | 'not_allowed' | 'case_by_case';
@@ -236,4 +277,5 @@ export interface Rental {
   promoted: boolean;
   promotionDate?: string;
   promotionDays?: number;
+  inquiryCount?: number;
 }
