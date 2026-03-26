@@ -2,7 +2,7 @@
 
 import { useState, useMemo } from 'react';
 import Link from 'next/link';
-import { Search, ChevronDown, Plus } from 'lucide-react';
+import { Search, ChevronDown, Plus, BarChart3 } from 'lucide-react';
 import { useJobsStore } from '@/store/jobs-store';
 import { JOB_CATEGORIES, JOB_TYPES, PAY_TYPES } from '@/lib/constants';
 import { formatDate, cn } from '@/lib/utils';
@@ -132,11 +132,20 @@ export default function JobsPage() {
                   <td className="px-4 py-3 font-medium text-gray-800">{formatPay(job.payType, job.payMin, job.payMax)}</td>
                   <td className="px-4 py-3 text-gray-500">{job.location}</td>
                   <td className="px-4 py-3">
-                    {job.promoted ? (
-                      <button onClick={() => togglePromotion(job.id)} className="text-xs font-medium text-offerup-green hover:text-offerup-green-dark transition-colors">Remove promotion</button>
-                    ) : (
-                      <button onClick={() => togglePromotion(job.id)} className="rounded-md border border-offerup-green px-3 py-1 text-xs font-medium text-offerup-green hover:bg-offerup-green-light transition-colors">Promote</button>
-                    )}
+                    <div className="flex items-center gap-2">
+                      <Link
+                        href={`/portal/jobs/${job.id}/performance`}
+                        className="rounded-lg p-1.5 text-gray-500 transition-colors hover:bg-gray-100 hover:text-gray-700"
+                        title="View performance"
+                      >
+                        <BarChart3 size={16} />
+                      </Link>
+                      {job.promoted ? (
+                        <button onClick={() => togglePromotion(job.id)} className="text-xs font-medium text-offerup-green hover:text-offerup-green-dark transition-colors">Remove promotion</button>
+                      ) : (
+                        <button onClick={() => togglePromotion(job.id)} className="rounded-md border border-offerup-green px-3 py-1 text-xs font-medium text-offerup-green hover:bg-offerup-green-light transition-colors">Promote</button>
+                      )}
+                    </div>
                   </td>
                 </tr>
               );

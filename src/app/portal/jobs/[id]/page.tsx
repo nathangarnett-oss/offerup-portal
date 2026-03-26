@@ -17,6 +17,7 @@ import {
   Building2,
   Megaphone,
   ExternalLink,
+  BarChart3,
 } from 'lucide-react';
 import { useJobsStore } from '@/store/jobs-store';
 import { JOB_TYPES, JOB_CATEGORIES, PAY_TYPES } from '@/lib/constants';
@@ -100,6 +101,13 @@ export default function JobDetailPage() {
           </div>
         </div>
         <div className="flex items-center gap-2">
+          <Link
+            href={`/portal/jobs/${job.id}/performance`}
+            className="flex items-center gap-1.5 rounded-lg border border-gray-200 px-4 py-2 text-sm font-medium text-gray-600 transition-colors hover:bg-gray-50"
+          >
+            <BarChart3 size={16} />
+            Performance
+          </Link>
           {job.promoted ? (
             <button
               onClick={() => togglePromotion(job.id)}

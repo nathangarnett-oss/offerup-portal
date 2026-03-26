@@ -1,4 +1,4 @@
-import { User, Subscription, Listing, Campaign, DailyMetric, CampaignAnalytics, AdCreative, BillingRecord, PaymentMethod, ListingCategory, Service, ServiceCategory, ServicePricingModel, ExperienceLevel, Job, JobType, JobCategory, PayType, Rental, PropertyType, PetPolicy, LeaseTerm } from './types';
+import { User, Subscription, Listing, Campaign, DailyMetric, CampaignAnalytics, AdCreative, BillingRecord, PaymentMethod, ListingCategory, Service, ServiceCategory, ServicePricingModel, ExperienceLevel, Job, JobType, JobCategory, PayType, JobDailyMetric, JobAnalytics, Rental, PropertyType, PetPolicy, LeaseTerm } from './types';
 
 // === User ===
 export const mockUser: User = {
@@ -446,6 +446,59 @@ export const mockJobs: Job[] = jobData.map((item, i) => ({
   createdAt: `2026-0${Math.min(3, Math.floor(i / 3) + 1)}-${String((i * 4 % 28) + 1).padStart(2, '0')}T00:00:00Z`,
   promotionDate: item.promoted ? '2026-03-15T00:00:00Z' : undefined,
 }));
+
+// === Job Analytics ===
+function generateJobDailyMetrics(days: number, baseViews: number, promoted: boolean): JobDailyMetric[] {
+  const metrics: JobDailyMetric[] = [];
+  const startDate = new Date('2026-02-24');
+  const promotionMultiplier = promoted ? 1.8 : 1;
+
+  for (let i = 0; i < days; i++) {
+    const date = new Date(startDate);
+    date.setDate(date.getDate() + i);
+    const dayOfWeek = date.getDay();
+    const weekendMultiplier = (dayOfWeek === 0 || dayOfWeek === 6) ? 0.6 : 1;
+    const trendMultiplier = 1 + (i / days) * 0.2;
+    const noise = 0.75 + (((i * 7 + 13) % 20) / 20) * 0.5;
+
+    const views = Math.round(baseViews * weekendMultiplier * trendMultiplier * noise * promotionMultiplier);
+    const clickRate = 0.15 + (((i * 3 + 7) % 15) / 15) * 0.15;
+    const clicks = Math.round(views * clickRate);
+    const applicationRate = 0.03 + (((i * 11 + 3) % 10) / 10) * 0.05;
+    const applications = Math.round(clicks * applicationRate);
+
+    metrics.push({
+      date: date.toISOString().split('T')[0],
+      views,
+      clicks,
+      applications,
+    });
+  }
+  return metrics;
+}
+
+export const mockJobAnalytics: Record<string, JobAnalytics> = {};
+mockJobs.forEach((job) => {
+  const days = 30;
+  const baseViews = job.status === 'closed' ? 80 : job.jobType === 'full_time' ? 200 : 120;
+  const dailyMetrics = generateJobDailyMetrics(days, baseViews, job.promoted);
+
+  const totalViews = dailyMetrics.reduce((sum, d) => sum + d.views, 0);
+  const totalClicks = dailyMetrics.reduce((sum, d) => sum + d.clicks, 0);
+  const totalApplications = dailyMetrics.reduce((sum, d) => sum + d.applications, 0);
+
+  mockJobAnalytics[job.id] = {
+    jobId: job.id,
+    summary: {
+      totalViews,
+      totalClicks,
+      totalApplications,
+      ctr: totalViews > 0 ? Math.round((totalClicks / totalViews) * 10000) / 100 : 0,
+      conversionRate: totalClicks > 0 ? Math.round((totalApplications / totalClicks) * 10000) / 100 : 0,
+    },
+    dailyMetrics,
+  };
+});
 
 // === Rentals ===
 const rentalData: { title: string; description: string; propertyType: PropertyType; rent: number; bedrooms: number; bathrooms: number; sqft: number; petPolicy: PetPolicy; availableDate: string; leaseTerm: LeaseTerm; amenities: string[]; location: string; status: 'active' | 'rented' | 'draft'; promoted: boolean; promotionDays?: number }[] = [

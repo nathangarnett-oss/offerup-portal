@@ -172,7 +172,11 @@ export default function AdsManagerPage() {
 
               return (
                 <tr key={campaign.id} className="border-b border-gray-50 hover:bg-gray-50 transition-colors">
-                  <td className="px-4 py-3 font-medium text-gray-800">{campaign.name}</td>
+                  <td className="px-4 py-3">
+                    <Link href={`/portal/ads/${campaign.id}`} className="font-medium text-offerup-green hover:text-offerup-green-dark">
+                      {campaign.name}
+                    </Link>
+                  </td>
                   <td className="px-4 py-3">
                     <span className="inline-flex items-center rounded-full bg-gray-100 px-2.5 py-0.5 text-xs font-medium text-gray-600">
                       {campaign.type === 'promoted_listing' ? 'Promoted' : 'Display'}

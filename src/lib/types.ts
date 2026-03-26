@@ -189,6 +189,26 @@ export interface Job {
   promotionDays?: number;
 }
 
+// === Job Analytics ===
+export interface JobDailyMetric {
+  date: string;
+  views: number;
+  clicks: number;
+  applications: number;
+}
+
+export interface JobAnalytics {
+  jobId: string;
+  summary: {
+    totalViews: number;
+    totalClicks: number;
+    totalApplications: number;
+    ctr: number;
+    conversionRate: number;
+  };
+  dailyMetrics: JobDailyMetric[];
+}
+
 // === Rentals ===
 export type PropertyType = 'apartment' | 'house' | 'condo' | 'townhouse' | 'room' | 'studio';
 export type PetPolicy = 'allowed' | 'not_allowed' | 'case_by_case';
