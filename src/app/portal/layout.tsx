@@ -17,6 +17,7 @@ import {
   Briefcase,
   Building2,
   MapPin,
+  DollarSign,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -37,6 +38,7 @@ const navItems: NavItem[] = [
   { label: 'My rentals', icon: Building2, href: '/portal/rentals' },
   { separator: true, label: 'Insights' },
   { label: 'Geographic engagement', icon: MapPin, href: '/portal/engagement' },
+  { label: 'Spend analytics', icon: DollarSign, href: '/portal/spend' },
   { separator: true, label: 'Advertising' },
   { label: 'Promotions', icon: Megaphone, href: '/portal/ads' },
   { label: 'Ads Manager', icon: BarChart3, href: '/portal/ads' },
@@ -48,6 +50,7 @@ function isActive(pathname: string, href: string, label: string): boolean {
   if (href === '#') return false;
   if (href === '/portal') return pathname === '/portal';
   if (label === 'Geographic engagement') return pathname.startsWith('/portal/engagement');
+  if (label === 'Spend analytics') return pathname.startsWith('/portal/spend');
   if (label === 'Promotions' || label === 'Ads Manager') return pathname.startsWith('/portal/ads');
   if (label === 'Billing') return pathname.startsWith('/portal/billing');
   // Exact match for "create" routes to avoid matching the list page
